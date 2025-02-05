@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hire Page</title>
+  <link rel="icon" href="handyman.png" type="image/png">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    
+    body.loaded {
+      opacity: 1;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      padding: 8px 20px;
+      background-color: #333;
+      border-radius: 50px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    
+    .logo-container:hover {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+      transform: scale(1.1);
+    }
+    
+    .logo {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+    
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffcc00;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+    
+    .logo-container:hover .logo-text {
+      color: #ffff00;
+    }
+    
+    .search-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      border-radius: 25px;
+      padding: 5px 15px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+    }
+    
+    .search-container input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      padding: 5px;
+      width: 200px;
+      margin-left: 10px;
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+    
+    .search-container input:focus {
+      width: 250px;
+    }
+    
+    .card-container {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      height: 70%;
+      perspective: 1000px;
+    }
+    
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #2a2a2a;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+    
+    .card img {
+      width: 100%;
+      height: 200px; /* Set a fixed height for the image */
+      object-fit: contain; /* Ensure the whole image fits without zooming */
+      border-radius: 10px;
+    }
+    
+    .card h3 {
+      margin: 10px 0 5px 0;
+      font-size: 1.5rem;
+      color: #ffcc00;
+    }
+    
+    .card p {
+      font-size: 1rem;
+      color: #ccc;
+      text-align: center;
+    }
+    
+    .card ul {
+      list-style: none;
+      padding: 0;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    
+    .card ul li {
+      margin: 3px 0;
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+    
+    .button {
+      background: #ffcc00;
+      color: #1a1a1a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+    
+    .button:hover {
+      background: #ffd633;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <img class="logo" src="handyman.png" alt="HandyMan Logo">
+    <span class="logo-text">HandyMan</span>
+  </div>
+
+  <!-- Search Box -->
+  <div class="search-container">
+    <label for="searchInput" style="color: white;">Search:</label>
+    <input type="text" id="searchInput" placeholder="Search services...">
+  </div>
+
+  <div class="card-container" id="cardContainer">
+    <!-- Dynamic cards will be inserted here -->
+  </div>
+
+  <script>
+    // Wait for page to load and trigger the fade-in transition
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    // Example profile data
+    const profiles = [
+    { img: 'https://media.istockphoto.com/id/1807453201/photo/handyman-repairing-bathroom-pipes.jpg?b=1&s=612x612&w=0&k=20&c=3I_Y_ezXrFw0OZrYpnKN3odKayHMuFDNsX6CqoWXB6I=', title: 'Plumber', skills: [ 'Licensed professional', 'Specialized in leak repair'], priceRange: '$50 - $150 per job' },
+    { img: 'https://images.unsplash.com/photo-1517677208171-0bc6725a3e60', title: 'Laundry Service', skills: ['Efficient and timely delivery'], priceRange: '$30 - $100 per order' },
+    { img: 'https://images.unsplash.com/photo-1543269664-56d93c1b41a6', title: 'Babysitter', skills: ['Certified in first aid'], priceRange: '$100 - $300 per session' },
+    { img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b', title: 'Gym Trainer', skills: ['Certified fitness coach'], priceRange: '$200 - $600 per package' },
+    { img: 'https://images.unsplash.com/photo-1582735689369-4fe89db7114c', title: 'Washing Man', skills: ['Affordable service', 'Bulk laundry handling'], priceRange: '$20 - $70 per service' },
+    { img: 'https://images.pexels.com/photos/28576623/pexels-photo-28576623/free-photo-of-neatly-pressed-white-shirts-and-modern-iron.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Ironing Service', skills: ['Fast and efficient', 'Delicate garment care'], priceRange: '$25 - $80 per order' },
+    { img: 'https://images.unsplash.com/photo-1580927752452-89d86da3fa0a', title: 'Coder', skills: [ 'Web development expertise', 'AI projects'], priceRange: '$200 - $1000 per project' },
+    { img: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a', title: 'Maid Service', skills: ['Housekeeping', 'Thorough cleaning'], priceRange: '$40 - $200 per service' },
+    { img: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f', title: 'Painter', skills: ['Interior and exterior painting', 'Custom designs'], priceRange: '$100 - $500 per job' },
+    { img: 'https://images.pexels.com/photos/209235/pexels-photo-209235.jpeg?auto=compress&cs=tinysrgb&w=600', title: 'Carpenter', skills: ['Wood furniture crafting', 'Repair services' ], priceRange: '$150 - $800 per job' }
+  ];
+  
+
+    const cardContainer = document.getElementById('cardContainer');
+    const searchInput = document.getElementById('searchInput');
+
+// Create cards dynamically
+function createCards(profiles) {
+  cardContainer.innerHTML = ''; // Clear existing cards
+  profiles.forEach((profile, index) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.style.zIndex = profiles.length - index; // Stack order
+    card.innerHTML = `
+      <img src="${profile.img}" alt="${profile.title}">
+      <a href="searching_Hire.html" class="profile-title">
+        <h3>${profile.title}</h3>
+      </a>
+      <p>Available now for service!</p>
+      <ul>
+        ${profile.skills.map(skill => `<li>${skill}</li>`).join('')}
+      </ul>
+      <p><strong>Price Range:</strong> ${profile.priceRange}</p>
+      <div class="buttons">
+        <button class="button like">Like</button>
+        <button class="button share">Share</button>
+      </div>
+    `;
+    cardContainer.appendChild(card);
+  });
+}
+
+
+    // Initialize with all profiles
+    createCards(profiles);
+
+    // Filter cards based on search input
+    searchInput.addEventListener('input', function () {
+      const query = searchInput.value.toLowerCase();
+      const filteredProfiles = profiles.filter(profile => 
+        profile.title.toLowerCase().includes(query) || 
+        profile.skills.some(skill => skill.toLowerCase().includes(query))
+      );
+      createCards(filteredProfiles); // Re-create cards with filtered profiles
+    });
+
+// Combined event listener for profile-title click
+cardContainer.addEventListener('click', function(e) {
+  if (e.target.closest('.profile-title')) { // Check if the click is on the profile title
+    window.location.href = 'searching_Hire.html'; // Redirect to searching_Hire.html
+  }
+});
+
+    // Add event listener to redirect when "Like" button is clicked
+    cardContainer.addEventListener('click', function(e) {
+      if (e.target.classList.contains('like')) {
+        window.location.href = 'searching_Hire.html'; // Redirect to searching_Hire.html
+      }
+    });
+
+
+    let currentIndex = 0;
+
+    function updateCardStack() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        if (index === currentIndex) {
+          card.style.transform = 'translate(0, 0) scale(1)';
+          card.style.opacity = '1';
+        } else if (index > currentIndex) {
+          card.style.transform = `translateY(${(index - currentIndex) * 15}px) scale(0.95)`;
+          card.style.opacity = '0.9';
+        } else {
+          card.style.transform = 'translateX(-100%)';
+          card.style.opacity = '0';
+        }
+      });
+    }
+
+    function swipeCard(direction) {
+      const cards = document.querySelectorAll('.card');
+      if (currentIndex < profiles.length) {
+        const currentCard = cards[currentIndex];
+        currentCard.style.transform = `translate(${direction === 'right' ? '100%' : '-100%'}, -50%) rotate(${direction === 'right' ? '15deg' : '-15deg'})`;
+        currentCard.style.opacity = '0';
+        currentIndex++;
+        updateCardStack();
+      }
+    }
+
+    function goBack() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCardStack();
+      }
+    }
+
+    // Initialize card stack
+    updateCardStack();
+
+    // Add event listeners for swipe actions
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') swipeCard('right');
+      if (e.key === 'ArrowLeft') swipeCard('left');
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') goBack();
+    });
+  </script>
+</body>
+</html>

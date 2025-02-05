@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hire Page</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    .logo-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      padding: 8px 20px;
+      background-color: #333;
+      border-radius: 50px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .logo-container:hover {
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
+      transform: scale(1.1);
+    }
+
+    .logo {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #ffcc00;
+      text-transform: capitalize;
+      letter-spacing: 1px;
+      transition: color 0.3s ease;
+    }
+
+    .logo-container:hover .logo-text {
+      color: #ffff00;
+    }
+
+    .search-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      border-radius: 25px;
+      padding: 5px 15px;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+    }
+
+    .search-container input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      padding: 5px;
+      width: 200px;
+      margin-left: 10px;
+      border-radius: 20px;
+      transition: width 0.3s ease;
+    }
+
+    .search-container input:focus {
+      width: 250px;
+    }
+
+    .card-container {
+      position: relative;
+      width: 90%;
+      max-width: 400px;
+      height: 70vh;
+      perspective: 1000px;
+    }
+
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 106%;
+      background: #2a2a2a;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      cursor: grab;
+      user-select: none;
+      z-index: 0;
+    }
+
+    .card:active {
+      cursor: grabbing;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .price-range {
+      color: #ffcc00;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: linear-gradient(45deg, #ffd700, #ffcc00);
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .rating {
+      display: flex;
+      gap: 3px;
+      margin: 8px 0;
+    }
+
+    .star {
+      color: #ccc;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .star.active {
+      color: #ffd700;
+    }
+
+    .current-rating {
+      margin-left: 10px;
+      color: #fff;
+      font-size: 0.9rem;
+    }
+
+    .card.swipe-right {
+      transform: translateX(150%) rotate(15deg);
+      opacity: 0;
+    }
+
+    .card.swipe-left {
+      transform: translateX(-150%) rotate(-15deg);
+      opacity: 0;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+    }
+
+    .button {
+      background: #ffcc00;
+      color: #1a1a1a;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    .button:hover {
+      background: #ffd633;
+    }
+
+    .favourite {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .favourite.active {
+      color: red;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <a href="apply_hire.html">
+    <div class="logo-container">
+      <img class="logo" src="handyman.png" alt="HandyMan Logo">
+      <span class="logo-text">HandyMan</span>
+    </div>
+  </a>
+
+  <div class="search-container">
+    <label for="searchInput" style="color: white;">Search:</label>
+    <input type="text" id="searchInput" placeholder="Search services...">
+  </div>
+
+  <div class="card-container" id="cardContainer"></div>
+
+  <script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    const profiles = [
+      { img: 'Somya.jpg', name: 'Soumya Ranjan', description: 'Experienced Electrician with 10+ years of professional service in Hostel rooms for Building bots.', priceRange: '₹600 - ₹9000 per job' },
+      { img: 'udit1.jpg', name: 'UDIT OP', description: 'Experienced Talker with 19+ years of experience at residential service.', priceRange: '₹900 - ₹9 per job' },
+      { img: 'kanpri.jpg', name: 'Kanpri', description: 'Virtually Spiritualistic Coder with lifelong experience in others life.', priceRange: '₹9000 - ₹60,000 per job' },
+      { img: 'https://images.unsplash.com/photo-1621592484082-2d05b1290d7a', name: 'Rajesh Kumar', description: 'Experienced plumber with 10+ years of service in residential and commercial plumbing.', priceRange: '₹500 - ₹2000 per job' },
+      { img: 'https://images.pexels.com/photos/2245033/pexels-photo-2245033.jpeg?auto=compress&cs=tinysrgb&w=600', name: 'Priya Sharma', description: 'Skilled carpenter, specializing in custom furniture and home remodeling.', priceRange: '₹1000 - ₹5000 per job' },
+      { img: 'https://images.pexels.com/photos/3665348/pexels-photo-3665348.jpeg?auto=compress&cs=tinysrgb&w=600', name: 'Amit Patel', description: 'Professional gym trainer with expertise in weight loss and muscle building programs.', priceRange: '₹2000 - ₹8000 per package' },
+      { img: 'https://images.pexels.com/photos/7686294/pexels-photo-7686294.jpeg?auto=compress&cs=tinysrgb&w=600', name: 'Anjali Desai', description: 'Detail-oriented housekeeper with 5 years of experience in deep cleaning and organizing.', priceRange: '₹800 - ₹2500 per service' },
+      { img: 'https://images.unsplash.com/photo-1531891437562-4301cf35b7e4', name: 'Suresh Verma', description: 'Experienced painter with a focus on interior painting and custom designs.', priceRange: '₹1500 - ₹7000 per job' },
+      { img: 'https://images.unsplash.com/photo-1616002411355-49593fd89721', name: 'Meera Singh', description: 'Detail-oriented housekeeper with 5 years of experience in deep cleaning and organizing.', priceRange: '₹800 - ₹2500 per service' },
+      { img: 'https://images.pexels.com/photos/938639/pexels-photo-938639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', name: 'Rahul Gupta', description: 'Experienced painter with a focus on interior painting and custom designs.', priceRange: '₹1500 - ₹7000 per job' }
+    ];
+
+    let currentIndex = 0;  // Track the current index in the profile array
+    const cardContainer = document.getElementById('cardContainer');
+    
+    function createCard(profile) {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      const img = document.createElement('img');
+      img.src = profile.img;
+      card.appendChild(img);
+
+      const name = document.createElement('h2');
+      name.textContent = profile.name;
+      card.appendChild(name);
+
+      const description = document.createElement('p');
+      description.textContent = profile.description;
+      card.appendChild(description);
+
+      const priceRange = document.createElement('div');
+      priceRange.classList.add('price-range');
+      priceRange.textContent = profile.priceRange;
+      card.appendChild(priceRange);
+
+      const badge = document.createElement('span');
+      badge.classList.add('badge');
+      badge.textContent = 'Featured';
+      card.appendChild(badge);
+
+      const ratingContainer = document.createElement('div');
+      ratingContainer.classList.add('rating');
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('span');
+        star.classList.add('star');
+        star.dataset.value = i;
+        star.innerHTML = '&#9733;';
+        star.addEventListener('click', handleRatingClick);
+        ratingContainer.appendChild(star);
+      }
+      card.appendChild(ratingContainer);
+
+      const currentRating = document.createElement('div');
+      currentRating.classList.add('current-rating');
+      currentRating.textContent = 'Rating: 0';
+      card.appendChild(currentRating);
+
+      const favouriteIcon = document.createElement('div');
+      favouriteIcon.classList.add('favourite');
+      favouriteIcon.innerHTML = '&#x2764;';
+      favouriteIcon.addEventListener('click', toggleFavourite);
+      card.appendChild(favouriteIcon);
+
+      const swipeButtons = document.createElement('div');
+      swipeButtons.classList.add('buttons');
+      const leftButton = document.createElement('button');
+      leftButton.classList.add('button');
+      leftButton.textContent = 'Call';
+      //leftButton.addEventListener('click', () => swipeCard('left'));
+      swipeButtons.appendChild(leftButton);
+
+      const rightButton = document.createElement('button');
+      rightButton.classList.add('button');
+      rightButton.textContent = 'Message';
+      //rightButton.addEventListener('click', () => swipeCard('right'));
+      swipeButtons.appendChild(rightButton);
+
+      const middleButton = document.createElement('button');
+      middleButton.classList.add('button');
+      middleButton.textContent = 'Pay';
+      //rightButton.addEventListener('click', () => swipeCard('right'));
+      swipeButtons.appendChild(middleButton);
+
+      card.appendChild(swipeButtons);
+      cardContainer.appendChild(card);
+
+      return card;
+    }
+
+    function handleRatingClick(event) {
+      const selectedStarValue = event.target.dataset.value;
+      const stars = event.target.parentElement.querySelectorAll('.star');
+      stars.forEach(star => {
+        if (star.dataset.value <= selectedStarValue) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+
+      const currentRating = event.target.closest('.card').querySelector('.current-rating');
+      currentRating.textContent = `Rating: ${selectedStarValue}`;
+    }
+
+    function toggleFavourite(event) {
+      event.target.classList.toggle('active');
+    }
+
+    function swipeCard(direction) {
+      const cards = document.querySelectorAll('.card');
+      if (currentIndex < profiles.length) {
+        const currentCard = cards[currentIndex];
+    
+        // Apply transformation for swipe effect
+        currentCard.style.transform = `translate(${direction === 'right' ? '100%' : '-100%'}, -50%) rotate(${direction === 'right' ? '15deg' : '-15deg'})`;
+        currentCard.style.opacity = '0';
+    
+        // After the swipe, move to the next card
+        currentIndex++;
+        updateCardStack();
+      }
+    }
+    
+    function updateCardStack() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => card.classList.remove('swipe-right', 'swipe-left'));
+
+      // Create the next card (if any) and add it to the stack
+      if (currentIndex < profiles.length) {
+        createCard(profiles[currentIndex]);
+      }
+    }
+    function goBack() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCardStack();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') swipeCard('right');
+      if (e.key === 'ArrowLeft') swipeCard('left');
+      if (e.key === 'ArrowUp' || e.key === 'ArrowDown') goBack();
+    });
+
+    // Create cards on page load
+    createCard(profiles[currentIndex]);
+
+  </script>
+</body>
+</html>

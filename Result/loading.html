@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandyMan</title>
+    <link rel="icon" href="handyman.png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(237, 241, 245);
+            background-image: url('https://img.freepik.com/free-vector/hand-drawn-handyman-cartoon-illustration_23-2150765969.jpg?w=360');
+            background-size: contain; /* Ensure the image is contained */
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #6e8efb;
+            text-align: center;
+        }
+
+        .loader span {
+            color: #ffcc00;
+            display: inline-block;
+            animation: bouncy 0.5s ease-in-out infinite;
+        }
+
+        .loader span:nth-child(odd) {
+            animation-delay: 0s;
+        }
+
+        .loader span:nth-child(even) {
+            animation-delay: 0.1s;
+        }
+
+        @keyframes bouncy {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Rotating disc with an image inside */
+        .rotating-disc {
+            margin-top: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 5px solid #6e8efb;
+            border-top: 5px solid #ffcc00;
+            animation: rotate 1s linear infinite; /* Rotating animation */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+
+        .rotating-disc img {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            border-radius: 50%;
+            pointer-events: none; /* Ensure the image doesn't interfere with the click event */
+        }
+
+        .rotating-disc:hover {
+            transform: scale(1.1); /* Slight zoom on hover */
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8); /* Glow effect */
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen with animated "HANDYMAN" text -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader">
+            <div class="handyman">
+                <span>H</span><span>A</span><span>N</span><span>D</span><span>Y</span><span>-</span><span>M</span><span>A</span><span>N</span>
+            </div>
+            <!-- Rotating disc with image inside -->
+            <div class="rotating-disc" id="disc" onclick="redirectToApplyHire()">
+                <img src="https://assets.hipcv.com/content/Illustrations-for-content/handyman.png" alt="Handyman Image">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to redirect to apply_hire.html when the image inside the rotating disc is clicked
+        function redirectToApplyHire() {
+            window.location.href = 'sign.html'; // Redirect to apply_hire.html
+        }
+
+        // No timeout is used, and the page will stay until the image is clicked
+        // So there's no need for a timeout function here
+    </script>
+</body>
+</html>

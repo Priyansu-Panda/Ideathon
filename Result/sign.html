@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handyman - Sign In/Sign Up</title>
+    <link rel="icon" href="handyman.png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #2c2f33;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #343a40;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            min-height: 500px;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .left-panel {
+            flex: 1;
+            background: #444;
+            padding: 40px;
+            color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #2c2f33;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ffd700;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 40px;
+            background: #343a40;
+        }
+
+        .form-container {
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #f8f9fa;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #f8f9fa;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            font-size: 16px;
+            background: #2c2f33;
+            color: #f8f9fa;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ffd700;
+            color: #2c2f33;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ffed4a;
+        }
+
+        .toggle-form {
+            margin-top: 20px;
+            text-align: center;
+            color: #f8f9fa;
+        }
+
+        .toggle-form a {
+            color: #ffd700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .toggle-form a:hover {
+            color: #ffed4a;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <div class="logo">
+                <img src="handyman.png" alt="Handyman Logo">
+            </div>
+            <h1>Welcome to Handyman</h1>
+            <p>Your trusted partner for all home repair and other needs</p>
+        </div>
+        <div class="right-panel">
+            <div class="form-container">
+                <!-- Sign In Form -->
+                <form id="signin-form">
+                    <h2>Sign In</h2>
+                    <div class="form-group">
+                        <label for="signin-email">Email</label>
+                        <input type="email" id="signin-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-password">Password</label>
+                        <input type="password" id="signin-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-phone">Phone Number</label>
+                        <input type="text" id="signin-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-location">Current Location</label>
+                        <input type="text" id="signin-location" required>
+                    </div>
+                    <button type="submit">Sign In</button>
+                    <div class="toggle-form">
+                        Don't have an account? <a onclick="toggleForms()">Sign Up</a>
+                    </div>
+                </form>
+
+                <!-- Sign Up Form -->
+                <form id="signup-form" class="hidden">
+                    <h2>Sign Up</h2>
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-phone">Phone Number</label>
+                        <input type="text" id="signup-phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-location">Current Location</label>
+                        <input type="text" id="signup-location" required>
+                    </div>
+                    <button type="submit">Sign Up</button>
+                    <div class="toggle-form">
+                        Already have an account? <a onclick="toggleForms()">Sign In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleForms() {
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            signinForm.classList.toggle('hidden');
+            signupForm.classList.toggle('hidden');
+        }
+
+        // Redirect to apply_hire.html after sign-in or sign-up
+        document.getElementById('signin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+            const phone = document.getElementById('signin-phone').value;
+            const location = document.getElementById('signin-location').value;
+            console.log('Sign In:', { email, password, phone, location });
+
+            // After sign-in logic, redirect to apply_hire.html
+            window.location.href = 'apply_hire.html';
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const phone = document.getElementById('signup-phone').value;
+            const location = document.getElementById('signup-location').value;
+            console.log('Sign Up:', { name, email, password, phone, location });
+
+            // After sign-up logic, redirect to apply_hire.html
+            window.location.href = 'apply_hire.html';
+        });
+    </script>
+</body>
+</html>

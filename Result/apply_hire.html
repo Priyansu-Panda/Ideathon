@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandyMan</title>
+    <link rel="icon" href="handyman.png" type="image/png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: flex 0.3s ease;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .apply {
+            background-image: url('https://thumbs.dreamstime.com/b/beautiful-asian-business-women-reading-resume-gives-interview-as-human-resource-company-recruitment-159604398.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hire {
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/054/320/206/small/construction-workers-shake-hands-modern-building-backdrop-symbolizes-collaboration-photo.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            filter: blur(10px);
+            z-index: 1;
+        }
+
+        .section .content {
+            z-index: 2;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            background-color: #fff;
+            cursor: ew-resize;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .highlight {
+            font-size: 3.5rem;
+            color: yellow;
+        }
+
+        .slider:hover {
+            background-color: #ccc;
+        }
+
+        .active {
+            border: 3px solid #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            z-index: 20;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="https://assets.hipcv.com/content/Illustrations-for-content/handyman.png" alt="Handyman Logo">
+    </div>
+
+    <div class="container">
+        <div class="section apply" id="apply-section">
+            <div class="content">Apply</div>
+        </div>
+        <div class="slider" id="slider"></div>
+        <div class="section hire" id="hire-section">
+            <div class="content">Hire</div>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const applySection = document.getElementById('apply-section');
+        const hireSection = document.getElementById('hire-section');
+        const container = document.querySelector('.container');
+
+        let isDragging = false;
+
+        slider.addEventListener('mousedown', () => {
+            isDragging = true;
+        });
+
+        window.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                const sliderPosition = slider.offsetLeft / container.offsetWidth;
+
+                if (sliderPosition < 0.1) {
+                    hireSection.classList.add('active');
+                    applySection.classList.remove('active');
+                    redirectToPage('hire2.html');  // Redirect to hire.html
+                } else if (sliderPosition > 0.9) {
+                    applySection.classList.add('active');
+                    hireSection.classList.remove('active');
+                    redirectToPage('apply2.html');  // Redirect to apply.html
+                }
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const containerRect = container.getBoundingClientRect();
+            let newLeft = e.clientX - containerRect.left;
+
+            if (newLeft < 0) newLeft = 0;
+            if (newLeft > containerRect.width) newLeft = containerRect.width;
+
+            const sliderPercentage = newLeft / containerRect.width;
+
+            slider.style.left = `${newLeft}px`;
+            applySection.style.flex = `${1 + sliderPercentage}`;
+            hireSection.style.flex = `${2 - sliderPercentage}`;
+
+            if (sliderPercentage < 0.1) {
+                hireSection.classList.add('highlight');
+                applySection.classList.remove('highlight');
+            } else if (sliderPercentage > 0.9) {
+                applySection.classList.add('highlight');
+                hireSection.classList.remove('highlight');
+            } else {
+                applySection.classList.remove('highlight');
+                hireSection.classList.remove('highlight');
+            }
+        });
+
+        slider.style.left = `${container.offsetWidth / 2 - slider.offsetWidth / 2}px`;
+
+        window.onload = function () {
+            document.body.style.opacity = '1';
+        };
+
+        function redirectToPage(targetPage) {
+            window.location.href = targetPage;  // Directly redirect to the respective page
+        }
+    </script>
+</body>
+</html>
